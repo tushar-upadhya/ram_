@@ -5,66 +5,72 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const routes = [
-    { name: "Process", path: "/process" },
-    { name: "About", path: "/about" },
-    { name: "Case Studies", path: "/case-studies" },
-    { name: "Shouts", path: "/shouts" },
-    { name: "Services", path: "/services" },
-    { name: "FAQs", path: "/faqs" },
+  { name: "Process", path: "/process" },
+  { name: "About", path: "/about" },
+  { name: "Case Studies", path: "/case-studies" },
+  { name: "Shouts", path: "/shouts" },
+  { name: "Services", path: "/services" },
+  { name: "FAQs", path: "/faqs" },
 ];
 
 const Header = () => {
-    const [isScrolled, setIsScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50);
-        };
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
 
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-    return (
-        <header
-            className={` top-0 left-0 w-full z-50 transition-all duration-300
-            ${
-                isScrolled
-                    ? "backdrop-blur-lg bg-white/30 border border-white/20 shadow-lg"
-                    : "bg-transparent"
-            }`}
-        >
-            <div className="container mx-auto flex items-center justify-between py-4 px-6">
-                {/* Logo */}
-                <Link href="/">
-                    <span className="text-xl font-bold">LOGO</span>
-                </Link>
+  return (
+    <header
+      className={`left-0 top-0 z-50 w-full transition-all duration-300 ${
+        isScrolled
+          ? "border border-white/20 bg-white/30 shadow-lg backdrop-blur-lg"
+          : "bg-transparent"
+      }`}
+    >
+      <div className="container mx-auto py-4">
+        <div className="flex flex-col items-center justify-between md:flex-row">
+          {/* Logo */}
+          <Link href="/">
+            <span className="text-xl font-bold">LOGO</span>
+          </Link>
 
-                {/* Navigation - Scrollable X-Axis */}
-                <nav className="flex-1 mx-4 overflow-x-auto whitespace-nowrap scrollbar-hide">
-                    <div className="flex space-x-6">
-                        {routes.map((route) => (
-                            <Link
-                                key={route.path}
-                                href={route.path}
-                                className="text-sm font-medium hover:text-primary transition"
-                            >
-                                {route.name}
-                            </Link>
-                        ))}
-                    </div>
-                </nav>
+          {/* Book a Demo Button */}
+          <Button
+            variant="outline"
+            className="w-full border-primary text-primary hover:bg-primary hover:text-white sm:w-fit md:order-last"
+          >
+            Book a Demo
+          </Button>
 
-                {/* Book a Demo Button */}
-                <Button
-                    variant="outline"
-                    className="border-primary text-primary hover:bg-primary hover:text-white"
+          {/* Navigation  */}
+          <nav className="scrollbar-hide mt-4 w-full overflow-x-auto whitespace-nowrap md:mt-0 md:w-auto">
+            <div className="flex space-x-6 px-2">
+              {routes.map((route) => (
+                <Link
+                  key={route.path}
+                  href={route.path}
+                  className="group relative inline-block overflow-hidden px-3 py-2 text-sm font-medium transition"
                 >
-                    Book a Demo
-                </Button>
+                  <span className="block transform transition-transform group-hover:-translate-y-full">
+                    {route.name}
+                  </span>
+                  <span className="absolute left-0 top-full block transform text-primary transition-transform group-hover:-translate-y-full">
+                    {route.name}
+                  </span>
+                </Link>
+              ))}
             </div>
-        </header>
-    );
+          </nav>
+        </div>
+      </div>
+    </header>
+  );
 };
 
 export default Header;
